@@ -31,8 +31,9 @@
 					</tr>
 				</table>
 				<br>
+				<img id="loader" style="margin: 20px;width: 100px;height: 80px;display: none;" src="done.png">
 				<br>
-				<input style="background-color: pink;border-radius: 20px;width: 25%;font-size: 15px;" type="submit" name="submit" value="Submit" />
+				<input style="color: white;background-color: black;border-radius: 20px;width: 25%;font-size: 15px;" type="submit" name="submit" value="Submit" />
 				<h5 style="color: black;">*It's forbidden to use ADULT words here, Non Respectful Thoughts Will Delete/Suspend Your Thoughts/Access.<br>Please be courteous and respectful to others.*</h5>
 				<br>
 				<h6>Made with &#9829; by Subhranshu :)</h6> </center>
@@ -47,6 +48,9 @@
 			method: 'POST',
 			body: new FormData(form)
 		}).then(response => alert("Thanks, Successfully Submitted.")).catch(error => console.error('Error!', error.message))
+		document.getElementById('loader').style.display = "";
+		
+
 	})
 	</script>
 </body>
