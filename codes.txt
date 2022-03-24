@@ -1,0 +1,141 @@
+## Hi, i am subhranshu. This file will help you to directly find the main codes i use.
+
+
+
+
+
+
+#1. Code for Post/Send data from HTML to Google sheet:
+
+***********************************************
+
+var sheetName = 'Sheet1'
+    var scriptProp = PropertiesService.getScriptProperties()
+
+    function intialSetup () {
+      var activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+      scriptProp.setProperty('key', activeSpreadsheet.getId())
+    }
+
+    function doPost (e) {
+      var lock = LockService.getScriptLock()
+      lock.tryLock(10000)
+
+      try {
+      var doc = SpreadsheetApp.openById(scriptProp.getProperty('key'))
+      var sheet = doc.getSheetByName(sheetName)
+
+      var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0]
+      var nextRow = sheet.getLastRow() + 1
+
+      var newRow = headers.map(function(header) {
+        return header === 'Publish-Time' ? new Date() : e.parameter[header]
+      })
+
+      sheet.getRange(nextRow, 1, 1, newRow.length).setValues([newRow])
+
+      return ContentService
+        .createTextOutput(JSON.stringify({ 'result': 'success', 'row': nextRow }))
+        .setMimeType(ContentService.MimeType.JSON)
+      }
+
+      catch (e) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ 'result': 'error', 'error': e }))
+        .setMimeType(ContentService.MimeType.JSON)
+      }
+
+      finally {
+      lock.releaseLock()
+      }
+    }
+
+    *****************************************
+
+#2. Pull data from google sheet to webpage:
+
+    *****************************************
+
+    function doGet(e) {
+  var x = HtmlService.createTemplateFromFile("index");
+  var y = x.evaluate();
+  var z = y.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  return z;
+}
+
+function getSheetData()  { 
+  var a= SpreadsheetApp.getActiveSpreadsheet();
+  var b = a.getSheetByName('Sheet1'); 
+  var c = b.getDataRange();
+  return c.getValues();  
+}
+
+*********************************************
+
+#3. Pull data show in table(HTML) format:
+
+********************************************
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+         table {
+         font-family: arial, sans-serif;
+         border-collapse: collapse;
+         width: 100%;
+         margin-top: 20px;
+         }
+         th{
+         background-color: #000000;
+         color: white;
+         }
+         td, th {
+         border: 1px solid #dddddd;
+         text-align: center;
+         padding: 8px;
+         }
+         tr:nth-child(even) {
+         background-color: #dddddd;
+         }
+      </style>
+  </head>
+  <body>
+    <center><br>
+   <table>
+    <?var tableData = getSheetData();?>
+    <?for(var i = 0; i < tableData.length; i++) { ?>
+      <?if(i == 0) { ?>
+        <tr>
+        <?for(var j = 0; j < tableData[i].length; j++) { ?>
+        <th><?= tableData[i][j] ?></th>
+        <? } ?>
+        </tr>
+      <? } else { ?>
+        <tr>
+        <?for(var j = 0; j < tableData[i].length; j++) { ?>
+        <td><?= tableData[i][j] ?></td>
+        <? } ?>
+        </tr>
+      <? } ?>
+    <? } ?>
+    </table></center>
+  </body>
+</html>
+
+****************************************************
+
+-- Watch video regarding- how to pull data from google sheet & push data to google sheet.
+
+My push link: https://script.google.com/macros/s/AKfycbwHtgH_0FD3UuZARSlo5g_zDrI4BHWRdEJCSwveG3dGD16vDwFeIKV4XxdzeDwCDqWq/exec
+My pull link: https://script.google.com/macros/s/AKfycbwN_ydF5J3_ddKOCRJ4h30nMf72B-x8Chmij1ZRUn6ZBC0CqdwiBnp_8KujJLnFxjCZ/exec
+The javascript code for push/send data is written in the "Submit.html" file. Check js code their.
+You can create a notepad app with this source code, also you dont need a database to store your notes.
+For any help contact me: +918249587552(call/whatsapp).
+email: subhransuchoudhury00@gmail.com
+
+
+
+
+$ Sayonara

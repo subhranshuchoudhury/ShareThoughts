@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ShareThoughts</title>
+	<link rel="stylesheet" type="text/css" href="sheet.css"> </head>
+
+<body>
+	<div class="topnav"> <a href="index.html">Thoughts</a> <a class="active" href="submit.html">Submit &#128203;</a> </div>
+	<center>
+		<h3>&#128203; Submit Your Thought! &#128203;</h3>
+		<br>
+		<form method="post" autocomplete="off" name="google-sheet">
+			<center>
+				<br>
+				<br>
+				<table style="border-radius: 20px;padding: 10px; background-color: #2f71c2;width: 90%;text-align: center">
+					<tr>
+						<td style="color: yellow;"><b>Name : </b></td>
+						<td>
+							<input style="width: 20rem;border-radius: 20px;text-align: center;color: red;" type="text" name="Name" value="" placeholder="enter your name..." required="" />
+						</td>
+					</tr>
+					<tr>
+						<td style="color: yellow;"><b>Thoughts : </b></td>
+						<td>
+							<textarea placeholder="enter your thoughts here..." name="Thoughts" rows="4" cols="50"></textarea>
+						</td>
+					</tr>
+				</table>
+				<br>
+				<br>
+				<input style="background-color: pink;border-radius: 20px;width: 10%;font-size: 15px;" type="submit" name="submit" value="Submit" />
+				<h5 style="color: black;">*It's forbidden to use ADULT words here, Non Respectful Thoughts Will Delete/Suspend Your Thoughts/Access.<br>Please be courteous and respectful to others.*</h5>
+				<br>
+				<h6>Made with &#9829; by Subhranshu :)</h6> </center>
+		</form>
+	</center>
+	<script type="text/javascript">
+	const scriptURL = 'https://script.google.com/macros/s/AKfycbwHtgH_0FD3UuZARSlo5g_zDrI4BHWRdEJCSwveG3dGD16vDwFeIKV4XxdzeDwCDqWq/exec'
+	const form = document.forms['google-sheet']
+	form.addEventListener('submit', e => {
+		e.preventDefault()
+		fetch(scriptURL, {
+			method: 'POST',
+			body: new FormData(form)
+		}).then(response => alert("Thanks, Successfully Submitted.")).catch(error => console.error('Error!', error.message))
+	})
+	</script>
+</body>
+
+</html>
